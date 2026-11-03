@@ -25,6 +25,7 @@ One widget package includes **English, Czech, German, Spanish and Japanese**. En
 - **Bitcoin support screen** with an address and scannable QR code.
 
 ## Requirements
+<img width="1280" height="480" alt="image" src="https://github.com/user-attachments/assets/cf02e64f-2309-48e3-9741-4d1c48876f19" />
 
 | Component | Requirement |
 | --- | --- |
@@ -36,6 +37,7 @@ One widget package includes **English, Czech, German, Spanish and Japanese**. En
 | Network | An internet connection for streams; a local connection for web control |
 
 The release contains a display widget and a companion audio service. Both are required. Decoder packages are not bundled. AAC requires an FFmpeg build that supports the selected stream and the Deck's firmware; the installer does not modify package feeds or install a decoder.
+<img width="1280" height="480" alt="image" src="https://github.com/user-attachments/assets/b843a050-4bad-45f6-b68f-df352027edc5" />
 
 ## Installation
 
@@ -122,6 +124,7 @@ Each Deck chooses one configured address and retains it across ordinary updates 
 - Changing volume restarts the decoder and may briefly interrupt playback.
 - The radio does not automatically coordinate speaker access with other audio services.
 - The native Deck configuration dialog cannot display a live service-generated URL or QR code. Use the widget's INFO and BTC screens or the remote panel.
+<img width="876" height="905" alt="image" src="https://github.com/user-attachments/assets/aca95d0e-a458-4d6b-b95d-0598ecc808fb" />
 
 ## Build from source
 
