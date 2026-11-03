@@ -1,0 +1,8 @@
+[package]
+name = "rolid-manifest-check"
+version = "0.1.0"
+edition = "2024"
+[workspace]
+[dependencies]
+bmc-widget-manifest = { path = "../../bmc-main/bmc-widget-manifest" }
+serde_json = "1"

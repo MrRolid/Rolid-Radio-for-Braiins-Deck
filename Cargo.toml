@@ -1,0 +1,15 @@
+[package]
+name = "rolid-radio"
+version = "0.5.3"
+edition = "2024"
+license = "MIT"
+[lib]
+crate-type = ["cdylib"]
+[dependencies]
+bmc-wasm-sdk = { path = "../bmc-main/bmc-wasm-runtime/sdk" }
+serde_json = "1"
+[profile.release]
+opt-level = "s"
+lto = true
+strip = true
+panic = "abort"

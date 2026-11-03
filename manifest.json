@@ -1,0 +1,94 @@
+{
+  "uid": "a34ef93d-a787-41d1-b647-73e8b4cf2b17",
+  "version": "0.5.3",
+  "name": "RoliD Radio",
+  "description": "MP3/AAC radio · EN/CZ/DE/ES/JA · Remote web control panel: Settings → INFO on Deck · https://github.com/MrRolid/Rolid-Radio-for-Braiins-Deck",
+  "author": {
+    "name": "RoliD"
+  },
+  "binary": "bin/rolid-radio",
+  "category": "media",
+  "settings": [],
+  "supported_viewports": [
+    {
+      "type": "rectangular",
+      "min_width": 317,
+      "max_width": 1280,
+      "min_height": 238,
+      "max_height": 480
+    }
+  ],
+  "params": {
+    "language": {
+      "name": "Display language",
+      "type": "string",
+      "default_value": "en",
+      "enum_values": [
+        {
+          "value": "cz",
+          "label": "Čeština"
+        },
+        {
+          "value": "en",
+          "label": "English"
+        },
+        {
+          "value": "de",
+          "label": "Deutsch"
+        },
+        {
+          "value": "es",
+          "label": "Español"
+        },
+        {
+          "value": "ja",
+          "label": "日本語"
+        }
+      ]
+    },
+    "rgb_max": {
+      "name": "Maximum RGB brightness (%)",
+      "type": "integer",
+      "default_value": 15,
+      "min": 0,
+      "max": 30
+    },
+    "stations": {
+      "name": "Station draft (shared USER bank when applied)",
+      "type": "array",
+      "default_value": [],
+      "max_items": 32,
+      "items": {
+        "type": "object",
+        "fields": {
+          "name": {
+            "name": "Name",
+            "type": "string"
+          },
+          "url": {
+            "name": "MP3 / AAC URL",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "publish_stations": {
+      "name": "Apply station list (increase by 1)",
+      "type": "integer",
+      "default_value": 0,
+      "min": 0,
+      "max": 1000000
+    },
+    "show_donation": {
+      "name": "Show BTC donation / QR on Deck",
+      "type": "boolean",
+      "default_value": false
+    },
+    "rgb_notify": {
+      "name": "RGB notification for remote changes",
+      "type": "boolean",
+      "default_value": true
+    }
+  },
+  "config_help": "Remote web control panel: open Settings → INFO on the Deck display for the current address detected from its network interfaces. — shared station editor and BTC donation address / QR. [GitHub](https://github.com/MrRolid/Rolid-Radio-for-Braiins-Deck)\n\nThe station list below is a local draft, not a live copy of the web editor. To replace the shared USER bank, edit the draft and increase Apply station list by 1. Opening settings or restarting does not publish it. BTC donation can be shown on the Deck screen using the switch below. Enable RGB feedback in only one widget instance. RGB notification is enabled by default; use RGB TEST in the remote panel with this widget visible. The native dialog uses static Markdown and cannot interpolate a live address. No personal IP or hostname is embedded."
+}

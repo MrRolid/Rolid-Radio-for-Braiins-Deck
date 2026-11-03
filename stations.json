@@ -1,0 +1,104 @@
+{
+  "cz": [
+    {
+      "name": "Radiožurnál",
+      "url": "https://rozhlas.stream/radiozurnal.mp3"
+    },
+    {
+      "name": "ČRo Plus",
+      "url": "https://rozhlas.stream/plus.mp3"
+    },
+    {
+      "name": "Vltava",
+      "url": "https://rozhlas.stream/vltava.mp3"
+    },
+    {
+      "name": "Radio Beat",
+      "url": "https://ice5.abradio.cz/beat128.mp3"
+    },
+    {
+      "name": "Dvojka",
+      "url": "https://rozhlas.stream/dvojka.mp3"
+    },
+    {
+      "name": "Radio Wave",
+      "url": "https://rozhlas.stream/radio_wave.mp3"
+    },
+    {
+      "name": "D-dur",
+      "url": "https://rozhlas.stream/ddur.mp3"
+    },
+    {
+      "name": "Jazz",
+      "url": "https://rozhlas.stream/jazz.mp3"
+    }
+  ],
+  "en": [
+    {
+      "name": "BBC World Service",
+      "url": "http://stream.live.vc.bbcmedia.co.uk/bbc_world_service"
+    },
+    {
+      "name": "KEXP",
+      "url": "https://kexp-mp3-128.streamguys1.com/kexp128.mp3"
+    },
+    {
+      "name": "SomaFM Groove Salad",
+      "url": "https://ice1.somafm.com/groovesalad-128-mp3"
+    },
+    {
+      "name": "Capital UK",
+      "url": "https://media-ice.musicradio.com/CapitalMP3"
+    }
+  ],
+  "de": [
+    {
+      "name": "Deutschlandfunk",
+      "url": "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web"
+    },
+    {
+      "name": "WDR 1LIVE",
+      "url": "https://wdr-1live-live.icecastssl.wdr.de/wdr/1live/live/mp3/128/stream.mp3"
+    },
+    {
+      "name": "Bayern 3",
+      "url": "https://dispatcher.rndfnk.com/br/br3/live/mp3/mid"
+    },
+    {
+      "name": "Berliner Rundfunk",
+      "url": "https://stream.berliner-rundfunk.de/brf-100prozent-deutsch/mp3-128/?ref=radiode"
+    }
+  ],
+  "es": [
+    {
+      "name": "Cadena SER",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/CADENASER.mp3"
+    },
+    {
+      "name": "LOS40",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/LOS40.mp3"
+    },
+    {
+      "name": "Cadena Dial",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/CADENADIAL.mp3"
+    },
+    {
+      "name": "RNE",
+      "url": "https://dispatcher.rndfnk.com/crtve/rne1/main/mp3/high"
+    }
+  ],
+  "ja": [
+    {
+      "name": "asia DREAM Japan Hits",
+      "url": "https://quincy.torontocast.com:2020/stream.mp3"
+    },
+    {
+      "name": "J-Pop Sakura",
+      "url": "http://quincy.torontocast.com:2070/stream.mp3"
+    },
+    {
+      "name": "Super Tokio Radio",
+      "url": "https://streamer.radio.co/s83eb8ff39/listen"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+[package]
+name = "rolid-asset-pack"
+version = "0.1.0"
+edition = "2024"
+[dependencies]
+bmc-wasm-assets = { path = "../../bmc-main/bmc-wasm-assets", default-features = false, features = ["extractor"] }
