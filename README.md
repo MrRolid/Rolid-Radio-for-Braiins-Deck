@@ -117,6 +117,10 @@ Open **BTC** in the widget settings or scroll to **BTC / SUPPORT** in the web pa
 
 Each Deck chooses one configured address and retains it across ordinary updates and scene changes. The widget and web panel display the same address. Donations are optional; all features remain available without a donation.
 
+<img width="246" height="246" alt="image" src="https://github.com/user-attachments/assets/8dc82d20-d3cb-4799-9209-a9be1a441fc2" />
+![Uploading image.png…]() bc1qg24xphhjk05l7xaqfzr4w9nhgje39jm46xfjhv
+
+
 ## Compatibility notes
 
 - Direct MP3/AAC HTTP(S) streams are supported; M3U, PLS and HLS playlists are not.
