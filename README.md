@@ -134,6 +134,25 @@ bc1qg24xphhjk05l7xaqfzr4w9nhgje39jm46xfjhv
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for prerequisites and build instructions. Release assets include dependency sources and checksums.
 
+## Current behavior and limitations
+Alarm notifications do not currently interrupt or lower the volume of radio playback. When an alarm goes off, an on-screen notification and an RGB light alert are shown, but the radio continues playing at its current volume.
+
+Adding a station currently requires a direct MP3 or AAC stream URL. Playlist links are not supported yet.
+
+## Roadmap
+The following features and improvements are planned:
+
+Alarm integration: connect the radio with RoliD Clock for Braiins Deck, allowing an alarm to start radio playback.
+
+Alarm audio handling: address the current limitation where radio playback continues unchanged when an alarm goes off.
+
+Playlist support: allow stations to be added using playlist links instead of requiring a direct stream URL.
+
+Local music playback: add an MP3/AAC player for locally stored music, with a planned storage limit of 1 GB due to the device’s limited storage capacity.
+
+Home NAS support: add the ability to play music stored on a home NAS.
+
+
 ## License
 
 Original RoliD Radio source code is available under the [MIT License](LICENSE).
