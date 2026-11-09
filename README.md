@@ -1,164 +1,71 @@
-<div align="center">
+# RoliD Radio for Braiins Deck
 
-# RoliD Radio
-### Internet radio for Braiins Deck
-
-**Touch controls · Shared station libraries · Remote web control**
-
-[Download](https://github.com/MrRolid/Rolid-Radio-for-Braiins-Deck/releases/latest) · [Installation](#installation) · [Web panel](#remote-web-panel) · [License](#license)
-
-</div>
-
-Turn your Braiins Deck into an internet radio with a compact touch interface and a browser-based control panel. Play MP3 streams, use AAC with a compatible FFmpeg installation, and keep your station library shared across scenes.
-
-One widget package includes **English, Czech, German, Spanish and Japanese**. English is the default.
+Internet radio and a personal MP3 library for the Braiins Deck speaker. One multilingual widget supports English (default), Czech, German, Spanish and Japanese.
 
 ## Features
 
-- **Large touch controls** for playback, volume and mute.
-- **Adaptive presets:** five buttons in Small, eight in Medium and twelve in Full layouts.
-- **Shared station libraries** with editable regional starter lists and a custom USER bank.
-- **Remote web control** with station editing, reordering, JSON import/export and playback controls.
-- **Sleep timer** with 15, 30, 60, 90 and 120-minute options.
-- **Audio meters and stream diagnostics** when using FFmpeg.
-- **Optional RGB notifications** for changes made through the remote panel.
-- **Bitcoin support screen** with an address and scannable QR code.
+- MP3/AAC internet radio, shared editable station groups and 5/8/12 presets for small/medium/full layouts.
+- Optional station logos, volume, mute, sleep timer and PCM stereo meters.
+- MP3 uploads, nested folders, metadata editing, ordered playlists, shuffle and repeat.
+- Swipe-ready library browsing on the Deck; a library pane occupies the right third in medium/full layouts.
+- Radio/Music navigation leaves audio playing; Music Play recalls the last track.
+- HTTP(S) network MP3 playback, including a self-contained demo.
+- Remote web control panel, optional password and persistent per-device Bitcoin donation address with QR code.
+- Playback interruption for local alarm sounds, with automatic resumption.
 
-## Requirements
-<img width="1280" height="480" alt="image" src="https://github.com/user-attachments/assets/cf02e64f-2309-48e3-9741-4d1c48876f19" />
+## Install or update
 
-| Component | Requirement |
-| --- | --- |
-| Device | Braiins Deck, ARMv7 |
-| Firmware | Custom `.nar` widget installation and a compatible Braiins widget SDK runtime |
-| Service installation | SSH access as `root` |
-| MP3 playback | `madplay` and `wget` installed on the Deck |
-| AAC playback and meters | Compatible `ffmpeg` and `aplay` installed on the Deck |
-| Network | An internet connection for streams; a local connection for web control |
-
-The release contains a display widget and a companion audio service. Both are required. Decoder packages are not bundled. AAC requires an FFmpeg build that supports the selected stream and the Deck's firmware; the installer does not modify package feeds or install a decoder.
-<img width="1280" height="480" alt="image" src="https://github.com/user-attachments/assets/b843a050-4bad-45f6-b68f-df352027edc5" />
-
-## Installation
-
-Download `rolid-radio-0.5.3.nar` and `rolid-radio-service-0.5.3.tar.gz` from [Releases](https://github.com/MrRolid/Rolid-Radio-for-Braiins-Deck/releases). Replace `DECK_IP` below with your device's IP address.
-
-1. **Install the audio service.** Open a terminal in the directory containing the downloaded service archive:
+1. From `package/release` on your Linux computer, install the service. Replace `<Deck-IP>` with the address of your own Deck:
 
    ```sh
-   ssh root@DECK_IP 'mkdir -p /tmp/rolid-radio-053 && tar -xz -C /tmp/rolid-radio-053 && sh /tmp/rolid-radio-053/install.sh' < rolid-radio-service-0.5.3.tar.gz
+   ssh root@<Deck-IP> 'mkdir -p /tmp/rolid-radio-071 && tar -xz -C /tmp/rolid-radio-071 && sh /tmp/rolid-radio-071/install.sh' < rolid-radio-service-0.7.1.tar.gz
    ```
 
-   Keep the web access key printed by the installer.
+2. In the Deck web administration, use **Install Widget** to upload `rolid-radio-0.7.1.nar`. Open `http://<Deck-IP>:18766` for remote controls. The actual address also appears in the widget's Settings → INFO panel.
 
-2. **Install the widget.** In the Deck's web interface, open **Display Widgets → Install Widget**, upload `rolid-radio-0.5.3.nar`, and add **RoliD Radio** to a scene. Choose a station and press Play.
+Requires ARMv7 Braiins Deck with `madplay`; local/network music, AAC and meters require FFmpeg and `aplay`. Existing music, playlists, station edits and donation identity are preserved. The installer does not install FFmpeg or change firmware.
 
-### Updating
+## Password
 
-Use the same installation procedure to update the service and widget. Station libraries, volume preferences and the device's donation address are preserved. Playback is stopped after the service restarts. An existing compatible FFmpeg installation can be kept.
+The default password is empty and protection is off. The web panel's security section can set, show, change or disable it. An empty password disables protection. Without protection, anyone able to reach the panel on your network can control playback and modify the library.
 
-## On-device controls
+Previously saved custom password settings remain intact. An older installer-generated `web-token` by itself is ignored. The native widget configuration offers password settings with an explicit Apply counter; Settings → INFO → PASSWORD on the display shows the live value. The static configuration form cannot automatically show a live value from the service. Changing the Apply counter is required to publish form edits.
 
-| Layout | Presets | Navigation |
-| --- | ---: | --- |
-| Small | 5 | Station list and settings beside Play/Stop |
-| Medium | 8 | Station list, settings, previous/next station |
-| Full | 12 | Station list, settings, previous/next station |
+## Stations and logos
 
-The first entries in the active station library become the preset buttons. Use the station list to browse the remaining entries. Empty preset slots are disabled.
+Use **+ Group** and **Rename group** in the panel for lists such as Jazz, Rock or News. Names and order are editable; Save publishes the group for all scenes. The original language groups are editable starter lists. The widget's title opens the group selector; the list button opens stations.
 
-Open **Settings** to select a station bank, change the display language, configure RGB brightness, set a sleep timer or open the BTC support screen. **INFO** shows stream diagnostics and the remote panel address.
+Choose a PNG, JPEG or WebP in a station row to create a 48×48 PNG logo, then Save. **Text** removes the logo. Source uploads are limited to 2 MiB; converted logos to 8 KiB each and 32 KiB per group. Use images you have permission to redistribute.
 
-## Remote web panel
+## Music library
 
-Open **Settings → INFO** on the Deck to find its current address, then visit:
+Create a genre folder, select it, then create an artist folder inside it. Upload or move tracks into the selected folder. Playlists reference existing files; they do not duplicate storage. Library storage is `/mnt/data/rolid-radio/music`: 1 GiB total, 128 MiB per uploaded file, at most 500 tracks and a 512 MiB free-space reserve. Metadata edits affect the library index, not MP3 tags.
 
-```text
-http://DECK_IP:18766
-```
+Deleting the actively selected track requires ending music playback first. Radio/Music navigation alone does not stop it. Play a radio station before deleting that track.
 
-Sign in with the access key printed during installation. To retrieve it again:
+## Network playback demo
 
-```sh
-ssh root@DECK_IP 'cat /mnt/data/rolid-radio/web-token'
-```
+1. On a computer or NAS with Python 3, run `python3 demo-network/serve.py`. This serves the included low-level synthetic tone. Use `--directory /path/to/music` to serve a music directory instead. The server is read-only but has no authentication; use it only on your trusted local network.
+2. In the panel's music library, enter a title and `http://<PC-or-NAS-IP>:18767/demo.mp3`, then choose **Add network MP3** and Play. The server must remain running and reachable from the Deck.
 
-The service detects the device's IPv4 address from its network interfaces, preferring active Wi-Fi over Ethernet, and refreshes it every five seconds. No personal IP address is embedded in the package.
+This is direct HTTP(S) file playback with range support, not an SMB/NFS client. Network files count toward the 500-track index limit but do not consume local music storage. A dropped network source stops music and reports an error; resume when the source is available.
 
-The panel provides playback, mute, volume and sleep controls, a shared station editor, diagnostics, an RGB test and the BTC support screen. Its interface language can be selected independently of the widget language.
+## Alarms and performance
 
-**Local network access only:** the panel uses HTTP and an access key. Do not expose port `18766` directly to the internet. The widget's internal API listens on loopback port `18765`.
+The service detects local `madplay` sound-file processes and releases its own speaker process. It does not terminate foreign players. An explicit sound reservation lasts at least eight seconds; process detection holds playback for six seconds after the last detection to bridge repeated alarm attempts. This can leave a short silent interval after an alarm ends.
 
-## Station libraries
+For the recognized RoliD Clock audio service, the installer backs up its CGI as `audio.before-radio-071`, then installs a bridge that reserves the speaker before playing a sound. Unknown audio services are left untouched. Native alarm volume is controlled by the Deck, not the radio volume slider.
 
-Editable starter banks are provided for English, Czech, German, Spanish and Japanese listening, alongside a shared **USER** bank. Changes saved in the web panel apply to all radio scenes on the same Deck. Each bank retains its own station list.
+Meter messages are separated from the catalog and requested every 100 ms; full status updates run once a second. The PCM path computes levels every 100 ms. No additional decoder is started for visual effects. Timing includes request latency, so 10 FPS is a target rather than a guarantee. Hardware performance and alarm loudness require on-device verification.
 
-Use the web panel to add, rename, reorder or remove stations, or import/export a JSON list. Supply direct HTTP(S) stream URLs. Station availability and bitrate are controlled by the broadcasters.
+## Build and verification
 
-The Deck's native configuration dialog also offers a **station draft**. To replace the shared USER bank with that draft, increase **Apply station list** by one. Editing the draft alone does not publish it. The native dialog does not mirror the current web library; use the web panel to edit the live shared list.
+The SDK revision is pinned in `tools/build.sh`. For an offline build, extract `package/release/source-dependencies.tar.gz` beside this project and point Cargo's vendored-source configuration at the extracted `vendor` folder. Rust targets: `wasm32-unknown-unknown` and `armv7-unknown-linux-musleabihf`.
 
-## RGB notifications
+Run `sh tools/build.sh`. See `TESTING.md` for automated checks and remaining hardware checks. Release files contain a SHA-256 checksum list.
 
-With **RGB notification** enabled, remote changes trigger a short warm-orange pulse. Brightness is adjustable from 0–30%. Use **RGB TEST** in the web panel to request an indication.
+## License and support
 
-The radio widget must be visible. Enable RGB notifications in one widget instance to avoid competing requests. System or preview lighting can take priority. Rapid changes may merge into a single indication.
+Original RoliD Radio code is MIT licensed. The SDK and other bundled dependencies retain their own licenses; the linked widget includes GPL-3.0 SDK code. See `LICENSE`, `LICENSES` and `THIRD_PARTY_NOTICES.md` before redistribution.
 
-RGB notifications indicate control activity; they are not a music visualizer.
-
-## Stream information
-
-With FFmpeg, the interface displays measured audio levels and available decoder information. Diagnostics include session time, PCM bytes, data age and reconnect count. The web panel also exposes available FFmpeg progress and error details.
-
-Meters are informational and are not guaranteed to be synchronized precisely with the speaker. With madplay, MP3 playback is available without AAC or PCM meters.
-
-## Support the project
-
-Open **BTC** in the widget settings or scroll to **BTC / SUPPORT** in the web panel to display the donation address and QR code.
-
-Each Deck chooses one configured address and retains it across ordinary updates and scene changes. The widget and web panel display the same address. Donations are optional; all features remain available without a donation.
-
-<img width="246" height="246" alt="image" src="https://github.com/user-attachments/assets/8dc82d20-d3cb-4799-9209-a9be1a441fc2" />
-bc1qg24xphhjk05l7xaqfzr4w9nhgje39jm46xfjhv
-
-
-## Compatibility notes
-
-- Direct MP3/AAC HTTP(S) streams are supported; M3U, PLS and HLS playlists are not.
-- Track titles, artist metadata, spectrum analysis and cache-fill percentages are not provided.
-- Changing volume restarts the decoder and may briefly interrupt playback.
-- The radio does not automatically coordinate speaker access with other audio services.
-- The native Deck configuration dialog cannot display a live service-generated URL or QR code. Use the widget's INFO and BTC screens or the remote panel.
-<img width="876" height="905" alt="image" src="https://github.com/user-attachments/assets/aca95d0e-a458-4d6b-b95d-0598ecc808fb" />
-
-## Build from source
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for prerequisites and build instructions. Release assets include dependency sources and checksums.
-
-## Current behavior and limitations
-Alarm notifications do not currently interrupt or lower the volume of radio playback. When an alarm goes off, an on-screen notification and an RGB light alert are shown, but the radio continues playing at its current volume.
-
-Adding a station currently requires a direct MP3 or AAC stream URL. Playlist links are not supported yet.
-
-## Roadmap
-The following features and improvements are planned:
-
-Alarm integration: connect the radio with RoliD Clock for Braiins Deck, allowing an alarm to start radio playback.
-
-Alarm audio handling: address the current limitation where radio playback continues unchanged when an alarm goes off.
-
-Playlist support: allow stations to be added using playlist links instead of requiring a direct stream URL.
-
-Local music playback: add an MP3/AAC player for locally stored music, with a planned storage limit of 1 GB due to the device’s limited storage capacity.
-
-Home NAS support: add the ability to play music stored on a home NAS.
-
-
-## License
-
-Original RoliD Radio source code is available under the [MIT License](LICENSE).
-
-The compiled widget incorporates the Braiins SDK and is distributed under **GPL-3.0-or-later**. Japanese font assets retain their **SIL Open Font License**. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for the scope of each license and corresponding source information.
-
----
-
-An independent community project for Braiins Deck. Not an official Braiins product.
+The donation page displays one randomly selected address persisted for each Deck. [Source and issues](https://github.com/MrRolid/Rolid-Radio-for-Braiins-Deck).

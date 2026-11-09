@@ -5,7 +5,6 @@
 - Rust 1.99.1 and Cargo
 - Python 3
 - Git
-- `nix-store` for NAR packaging
 - WASM and ARMv7 musl Rust targets
 
 ## Build
@@ -22,12 +21,14 @@ For offline dependency resolution, extract `source-dependencies.tar.gz` from the
 
 ## Validation
 
-The build script runs service and manifest unit tests. Additional tests in `tests/` cover shared catalogs, HTTP access control, widget interaction, layout and QR payloads. Widget tests require Python packages `wasmtime`, `Pillow` and `zxing-cpp` as applicable.
+The build script runs service and manifest unit tests. NAR packaging uses the included deterministic Python writer. Additional tests in `tests/` cover shared catalogs, HTTP access control, widget interaction, layout and QR payloads. Widget tests require Python packages `wasmtime`, `Pillow` and `zxing-cpp` as applicable.
 
 Verify playback, touch controls and RGB behavior on a physical Deck before publishing a release. CI builds are not a substitute for device testing.
 
 ## Pull requests
 
-Describe the behavior being changed and how it was tested. Preserve all five interface languages and the single multilingual NAR package. Do not embed device IP addresses, access keys, private station credentials or local state files.
+Describe the behavior being changed and how it was tested. Preserve all five interface languages and the single multilingual NAR package. Do not embed device IP addresses, passwords, private station credentials or local state files.
 
 Original contributions are MIT-licensed. Preserve third-party copyright and license notices.
+
+Web DOM tests use Node.js and linkedom (`npm install --prefix /tmp/radio-dom linkedom`, then `NODE_PATH=/tmp/radio-dom/node_modules node tests/web_dom.cjs`). These exercise handlers without browser rendering.

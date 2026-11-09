@@ -1,8 +1,8 @@
 {
   "uid": "a34ef93d-a787-41d1-b647-73e8b4cf2b17",
-  "version": "0.5.3",
+  "version": "0.7.1",
   "name": "RoliD Radio",
-  "description": "MP3/AAC radio · EN/CZ/DE/ES/JA · Remote web control panel: Settings → INFO on Deck · https://github.com/MrRolid/Rolid-Radio-for-Braiins-Deck",
+  "description": "MP3/AAC radio and local MP3 player · EN/CZ/DE/ES/JA · Remote web control panel: Settings → INFO on Deck · https://github.com/MrRolid/Rolid-Radio-for-Braiins-Deck",
   "author": {
     "name": "RoliD"
   },
@@ -88,7 +88,24 @@
       "name": "RGB notification for remote changes",
       "type": "boolean",
       "default_value": true
+    },
+    "web_key": {
+      "name": "Web password (empty disables protection)",
+      "type": "string",
+      "default_value": ""
+    },
+    "web_key_required": {
+      "name": "Require web password",
+      "type": "boolean",
+      "default_value": false
+    },
+    "apply_access": {
+      "name": "Apply access settings (increase by 1)",
+      "type": "integer",
+      "default_value": 0,
+      "min": 0,
+      "max": 1000000
     }
   },
-  "config_help": "Remote web control panel: open Settings → INFO on the Deck display for the current address detected from its network interfaces. — shared station editor and BTC donation address / QR. [GitHub](https://github.com/MrRolid/Rolid-Radio-for-Braiins-Deck)\n\nThe station list below is a local draft, not a live copy of the web editor. To replace the shared USER bank, edit the draft and increase Apply station list by 1. Opening settings or restarting does not publish it. BTC donation can be shown on the Deck screen using the switch below. Enable RGB feedback in only one widget instance. RGB notification is enabled by default; use RGB TEST in the remote panel with this widget visible. The native dialog uses static Markdown and cannot interpolate a live address. No personal IP or hostname is embedded."
+  "config_help": "Remote web control panel: open Settings → INFO on the Deck display for the current address detected from its network interfaces. — shared station editor and BTC donation address / QR. [GitHub](https://github.com/MrRolid/Rolid-Radio-for-Braiins-Deck)\n\nThe station list below is a local draft, not a live copy of the web editor. To replace the shared USER bank, edit the draft and increase Apply station list by 1. Opening settings or restarting does not publish it. BTC donation can be shown on the Deck screen using the switch below. Enable RGB feedback in only one widget instance. RGB notification is enabled by default; use RGB TEST in the remote panel with this widget visible. The native dialog uses static Markdown and cannot interpolate a live address. No personal IP or hostname is embedded.\n\nPassword: optional, empty by default. Open Settings → INFO → PASSWORD on the Deck or the remote panel to see it. Set a password or leave it empty to disable protection, then increase Apply access settings. Anyone on the local network can control playback and files when protection is disabled."
 }
