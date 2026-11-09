@@ -13,11 +13,11 @@ assert all(f in {'manifest.json','bin/rolid-radio','lib/wasm/rolid-radio.wasm'} 
 assets=list((w/'lib/assets/v1/svg').glob('*.asset'))
 assert len(assets)==15, len(assets)
 import subprocess
-subprocess.run(['rolid-radio/asset-pack/target/debug/rolid-asset-pack','verify',str(w/'lib/wasm/rolid-radio.wasm')],check=True)
+subprocess.run([str(Path(__file__).resolve().parents[1]/'asset-pack/target/debug/rolid-asset-pack'),'verify',str(w/'lib/wasm/rolid-radio.wasm')],check=True)
 assert not any(p.is_symlink() for p in root.rglob('*'))
 m=json.loads((w/'manifest.json').read_text())
 assert m['binary']=='bin/rolid-radio'
-assert m['version']=='0.5.3'
+assert m['version']=='0.7.1'
 assert (w/'lib/wasm/rolid-radio.wasm').read_bytes()[:8]==b'\0asm\1\0\0\0'
 template=Path('bmc-main/bmc-upgrade/assets/wasm-widget-wrapper.sh').read_text()
 assert (w/'bin/rolid-radio').read_text()==template.replace('@sdkMajor@','0').replace('@name@','rolid-radio')

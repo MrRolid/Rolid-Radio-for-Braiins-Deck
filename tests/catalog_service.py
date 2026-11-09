@@ -16,7 +16,7 @@ with tempfile.TemporaryDirectory() as td:
   raise AssertionError('Service did not start')
  p=start()
  try:
-  _,s=request();assert s['api']==4 and s['volume']==35 and s['catalog']['revision']==0
+  _,s=request();assert s['api']==6 and s['volume']==35 and s['catalog']['revision']==0
   address=s["donation_address"];assert address.startswith("bc1q") and len(address)==42
   revision=0
   for bank,count in [('cz',8),('en',4),('de',4),('es',4),('ja',3)]:

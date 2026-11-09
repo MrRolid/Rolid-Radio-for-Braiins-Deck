@@ -19,15 +19,15 @@ with tempfile.TemporaryDirectory() as tmp:
   raise AssertionError('service did not start')
  p=start()
  try:
-  token=(Path(tmp)/'web-token').read_text();assert len(token)==64
-  initial=get();assert initial['api']==4;address=initial['donation_address']
+  assert get(port=18766)['access_enabled'] is False;token='test-password';cmd(action='access_set',enabled=True,key=token)
+  initial=get();assert initial['api']==7;address=initial['donation_address']
   assert http(path='/',port=18766)[0]==200
   try:http(port=18766);raise AssertionError('unauthenticated access')
   except urllib.error.HTTPError as e:assert e.code==401
   assert get(token=token,port=18766)['donation_address']==address
   qr=get(path='/donation',token=token,port=18766);assert qr['address']==address and len(qr['matrix'])==41
   assert len(cmd(action='catalog',bank='cz',revision=0)['catalog']['stations'])==8
-  stations=[{'name':'AAC <test>','url':'https://rozhlas.stream/plus_high.aac'},{'name':'MP3','url':'https://rozhlas.stream/plus.mp3'}]
+  stations=[{'name':'AAC <test>','url':'https://rozhlas.stream/plus_high.aac','logo':''},{'name':'MP3','url':'https://rozhlas.stream/plus.mp3','logo':''}]
   get(path='/command',port=18766,token=token,data={'action':'catalog','edit':True,'bank':'cz','revision':1,'stations':stations})
   assert get()['catalog']['stations']==stations
   assert get()['remote_revision']==1
@@ -48,6 +48,6 @@ with tempfile.TemporaryDirectory() as tmp:
   print('PASS 30 local status requests:',round(elapsed,3),'s; auth, editable banks, revisions, sleep')
   p.terminate();p.wait(timeout=4);p=start()
   assert get()['catalog']['stations']==stations and get()['donation_address']==address
-  assert (Path(tmp)/'web-token').read_text()==token
+  assert json.loads((Path(tmp)/'web-access.json').read_text())['key']==token
   print('PASS shared list + donation + web key survive restart')
  finally:p.terminate();p.wait(timeout=4)

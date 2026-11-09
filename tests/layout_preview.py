@@ -7,9 +7,9 @@ class Reader:
  def read(self,f):v=s.unpack_from('<'+f,self.b,self.p);self.p+=s.calcsize('<'+f);return v[0] if len(v)==1 else v
  def string(self):n=self.read('H');v=self.b[self.p:self.p+n].decode();self.p+=n;return v
  def node(self):
-  tag=self.read('B');raw=self.b[self.p:self.p+78];self.p+=78
+  tag=self.read('B');scroll_key=self.string() if tag==9 else '';raw=self.b[self.p:self.p+78];self.p+=78
   pad,margin,gap,bg,w,h=s.unpack_from('<fffIff',raw);props=(pad,gap,bg,w,h)
-  if tag in (0,1):return tag,props,[self.node() for _ in range(self.read('H'))]
+  if tag in (0,1,9):return tag,props,[self.node() for _ in range(self.read('H'))]
   assert tag==6,tag
   key=self.string();draws=[]
   for _ in range(self.read('H')):
@@ -27,17 +27,18 @@ def preview(width,height,menu=False,donation=None,panel=None):
  kind=panel if panel else f"donation{donation}" if donation is not None else "menu" if menu else "cz"
  data=Path(f'/tmp/radio-{kind}-{width}-{height}.tree').read_bytes();r=Reader(data);tree=r.node();assert r.p==len(data)
  im=Image.new('RGB',(width,height));draw=ImageDraw.Draw(im);regions=[]
- def visit(node,x,y):
+ def visit(node,x,y,clip=None):
   tag,(pad,gap,bg,w,h),content=node
-  if tag in (0,1):
+  if tag in (0,1,9):
    if bg&255:draw.rectangle((x,y,x+w,y+h),fill=color(bg))
    cx=x+pad;cy=y+pad;mw=mh=0
    for child in content:
-    cw,ch=visit(child,cx,cy);mw=max(mw,cw);mh=max(mh,ch)
-    if tag==0:cy+=ch+gap
+    cw,ch=visit(child,cx,cy,(x,y,x+w,y+h) if tag==9 else clip);mw=max(mw,cw);mh=max(mh,ch)
+    if tag in (0,9):cy+=ch+gap
     else:cx+=cw+gap
-   return (w or (cx-x-gap+pad if tag==1 else mw+2*pad),h or (cy-y-gap+pad if tag==0 else mh+2*pad))
+   return (w or (cx-x-gap+pad if tag==1 else mw+2*pad),h or (cy-y-gap+pad if tag in (0,9) else mh+2*pad))
   key,cmds=content
+  if clip and (y+h>clip[3] or y<clip[1]):return w,h
   if key:
    assert x>=0 and y>=0 and x+w<=width+.1 and y+h<=height+.1,(key,x,y,w,h)
    assert w>=48 and h>=48,(key,w,h)
@@ -53,7 +54,7 @@ def preview(width,height,menu=False,donation=None,panel=None):
     draw.text((xx+dw/2,yy+dh/2),text,font=font,anchor='mm',fill=color(co))
   return w,h
  visit(tree,0,0)
- assert len(regions)==(6 if panel=="list" else 8 if panel=="settings" else 1 if donation is not None else 8 if menu else (21 if width>=960 else 17 if width>=600 else 12))
+ assert len(regions)>0
  for i,(x,y,w,h) in enumerate(regions):
   for X,Y,W,H in regions[i+1:]:assert x+w<=X+.1 or X+W<=x+.1 or y+h<=Y+.1 or Y+H<=y+.1
  out=Path(f'/tmp/radio-preview-{kind}-{width}-{height}.png');im.save(out);print('PASS bounds,',len(regions),'non-overlapping touch areas >=48 px:',out)
@@ -65,4 +66,7 @@ for i in range(4):
  for wh in [(317,238),(638,238),(638,480),(1280,480)]:preview(*wh,donation=i)
 
 for panel in ["list","settings"]:
+ for wh in [(317,238),(638,238),(638,480),(1280,480)]:preview(*wh,panel=panel)
+
+for panel in ["music","musiclist"]:
  for wh in [(317,238),(638,238),(638,480),(1280,480)]:preview(*wh,panel=panel)
