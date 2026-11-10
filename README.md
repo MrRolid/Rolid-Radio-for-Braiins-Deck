@@ -1,4 +1,4 @@
-<img width="1280" height="480" alt="694007727-b843a050-4bad-45f6-b68f-df352027edc5" src="https://github.com/user-attachments/assets/3ae4af25-271b-4d4c-9780-285db0612c17" />
+
 # RoliD Radio for Braiins Deck
 
 Internet radio and a personal MP3 library for the Braiins Deck speaker. One multilingual widget supports English (default), Czech, German, Spanish and Japanese.
@@ -26,7 +26,7 @@ Internet radio and a personal MP3 library for the Braiins Deck speaker. One mult
 2. In the Deck web administration, use **Install Widget** to upload `rolid-radio-0.7.1.nar`. Open `http://<Deck-IP>:18766` for remote controls. The actual address also appears in the widget's Settings → INFO panel.
 
 Requires ARMv7 Braiins Deck with `madplay`; local/network music, AAC and meters require FFmpeg and `aplay`. Existing music, playlists, station edits and donation identity are preserved. The installer does not install FFmpeg or change firmware.
-
+<img width="1280" height="480" alt="694007727-b843a050-4bad-45f6-b68f-df352027edc5" src="https://github.com/user-attachments/assets/3ae4af25-271b-4d4c-9780-285db0612c17" />
 ## Password
 
 The default password is empty and protection is off. The web panel's security section can set, show, change or disable it. An empty password disables protection. Without protection, anyone able to reach the panel on your network can control playback and modify the library.
