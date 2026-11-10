@@ -1,4 +1,3 @@
-
 # RoliD Radio for Braiins Deck
 
 Internet radio and a personal MP3 library for the Braiins Deck speaker. One multilingual widget supports English (default), Czech, German, Spanish and Japanese.
@@ -13,20 +12,23 @@ Internet radio and a personal MP3 library for the Braiins Deck speaker. One mult
 - HTTP(S) network MP3 playback, including a self-contained demo.
 - Remote web control panel, optional password and persistent per-device Bitcoin donation address with QR code.
 - Playback interruption for local alarm sounds, with automatic resumption.
-<img width="1280" height="480" alt="694007465-cf02e64f-2309-48e3-9741-4d1c48876f19" src="https://github.com/user-attachments/assets/f52b364a-1840-4650-8b14-776d74d26951" />
+
+<img width="1280" height="480" alt="RoliD Radio on Braiins Deck" src="https://github.com/user-attachments/assets/f52b364a-1840-4650-8b14-776d74d26951" />
 
 ## Install or update
 
 1. From `package/release` on your Linux computer, install the service. Replace `<Deck-IP>` with the address of your own Deck:
 
    ```sh
-   ssh root@<Deck-IP> 'mkdir -p /tmp/rolid-radio-071 && tar -xz -C /tmp/rolid-radio-071 && sh /tmp/rolid-radio-071/install.sh' < rolid-radio-service-0.7.1.tar.gz
+   ssh root@<Deck-IP> 'mkdir -p /tmp/rolid-radio-072 && tar -xz -C /tmp/rolid-radio-072 && sh /tmp/rolid-radio-072/install.sh' < rolid-radio-service-0.7.2.tar.gz
    ```
 
-2. In the Deck web administration, use **Install Widget** to upload `rolid-radio-0.7.1.nar`. Open `http://<Deck-IP>:18766` for remote controls. The actual address also appears in the widget's Settings → INFO panel.
+2. In the Deck web administration, use **Install Widget** to upload `rolid-radio-0.7.2.nar`. Open `http://<Deck-IP>:18766` for remote controls. The actual address also appears in the widget's Settings → INFO panel.
 
 Requires ARMv7 Braiins Deck with `madplay`; local/network music, AAC and meters require FFmpeg and `aplay`. Existing music, playlists, station edits and donation identity are preserved. The installer does not install FFmpeg or change firmware.
-<img width="1280" height="480" alt="694007727-b843a050-4bad-45f6-b68f-df352027edc5" src="https://github.com/user-attachments/assets/3ae4af25-271b-4d4c-9780-285db0612c17" />
+
+<img width="1280" height="480" alt="RoliD Radio interface" src="https://github.com/user-attachments/assets/3ae4af25-271b-4d4c-9780-285db0612c17" />
+
 ## Password
 
 The default password is empty and protection is off. The web panel's security section can set, show, change or disable it. An empty password disables protection. Without protection, anyone able to reach the panel on your network can control playback and modify the library.
@@ -56,7 +58,13 @@ This is direct HTTP(S) file playback with range support, not an SMB/NFS client. 
 
 The service detects local `madplay` sound-file processes and releases its own speaker process. It does not terminate foreign players. An explicit sound reservation lasts at least eight seconds; process detection holds playback for six seconds after the last detection to bridge repeated alarm attempts. This can leave a short silent interval after an alarm ends.
 
-For the recognized RoliD Clock audio service, the installer backs up its CGI as `audio.before-radio-071`, then installs a bridge that reserves the speaker before playing a sound. Unknown audio services are left untouched. Native alarm volume is controlled by the Deck, not the radio volume slider.
+For the recognized RoliD Clock audio service, the installer backs up its CGI as `audio.before-radio-072`, then installs a bridge that reserves the speaker before playing a sound. Unknown audio services are left untouched. Native alarm volume is controlled by the Deck, not the radio volume slider.
+
+Version 0.7.2 corrects CGI permissions that could cause HTTP 403 and prevents
+duplicate sound requests from bypassing a zero-volume stop. The owner confirmed
+Clock alarm sound at 70% and return to radio after installing the 0.7.2 service
+and widget. Sustained performance and the remaining checks in TESTING.md still
+need device measurements.
 
 Meter messages are separated from the catalog and requested every 100 ms; full status updates run once a second. The PCM path computes levels every 100 ms. No additional decoder is started for visual effects. Timing includes request latency, so 10 FPS is a target rather than a guarantee. Hardware performance and alarm loudness require on-device verification.
 

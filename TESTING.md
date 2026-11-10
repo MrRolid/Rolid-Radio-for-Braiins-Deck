@@ -1,4 +1,8 @@
-# Verification — 0.7.1
+# Verification — 0.7.2
+
+Actual release-build evidence is in `docs/RELEASE_072.md`. After installing the
+0.7.2 service and widget, the owner confirmed the Clock alarm and return to radio.
+This hardware confirmation does not establish meter performance.
 
 ## Automated checks
 
@@ -33,4 +37,16 @@ Run service tests sequentially because they use fixed local ports. The test PCM 
 
 ## Hardware checks still needed
 
-Physical swipe behavior, sustained meter FPS and CPU/Wi-Fi impact, real speaker routing, native alarm volume and end-to-end RoliD Clock gong timing have not been verified on the target Deck for this release. A 100 ms request interval is a target, not a measured hardware frame rate. Firmware revisions may behave differently.
+Physical swipe behavior, sustained meter FPS and CPU/Wi-Fi impact,
+multi-scene alarm ownership and restart/snooze timing still need
+target-device verification. The owner confirmed audible Clock alarm volume at
+70% and return to radio after the CGI fixes and again after the 0.7.2 update. Native
+firmware alarms were reported working. A 100 ms request interval is a target,
+not a measured hardware frame rate. Firmware revisions may behave differently.
+
+## Takeover checks for the next patch
+
+`python3 tests/alarm_diagnostics.py` checks privacy filtering and attenuation capture
+without a Deck. `python3 tests/clock_bridge.py` also verifies a duplicate zero-volume
+request stops the sound without a second reservation. See
+`docs/LOCAL_VERIFICATION_072.md` for this environment's actual results and blockers.

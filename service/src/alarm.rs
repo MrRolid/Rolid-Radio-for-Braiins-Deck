@@ -1,0 +1,6 @@
+//! Give local sound-file playback priority over radio/music. Does not modify
+//! firmware binaries, claim an alarm overlay, or terminate foreign processes.
+use std::{fs,path::Path,sync::{Arc,atomic::{AtomicBool,Ordering}},time::Duration};
+pub fn sound_command(b:&[u8])->bool{let args:Vec<_>=b.split(|c|*c==0).filter_map(|s|std::str::from_utf8(s).ok()).collect();let Some(cmd)=args.first()else{return false};if Path::new(cmd).file_name().and_then(|s|s.to_str())!=Some("madplay"){return false}args.iter().skip(1).any(|s|s.starts_with('/')&&s.to_ascii_lowercase().ends_with(".mp3"))}
+pub fn start()->Arc<AtomicBool>{let active=Arc::new(AtomicBool::new(false));let out=active.clone();std::thread::spawn(move||loop{let found=fs::read_dir("/proc").ok().into_iter().flatten().flatten().filter(|e|e.file_name().to_string_lossy().bytes().all(|b|b.is_ascii_digit())).any(|e|fs::read(e.path().join("cmdline")).is_ok_and(|b|sound_command(&b)));out.store(found,Ordering::Relaxed);std::thread::sleep(Duration::from_millis(50));});active}
+#[cfg(test)]mod tests{use super::*;#[test]fn detects_only_local_madplay(){assert!(sound_command(b"madplay\0/mnt/data/bmc/sounds/alarm.mp3\0-A\0-10\0"));assert!(!sound_command(b"madplay\0-q\0-\0"));assert!(!sound_command(b"ffmpeg\0-i\0x.mp3\0"));}}

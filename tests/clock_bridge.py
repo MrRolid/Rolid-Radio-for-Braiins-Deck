@@ -14,6 +14,9 @@ with tempfile.TemporaryDirectory() as tmp:
   proc=d/'proc'/(d/'state/player.pid').read_text().strip();proc.mkdir(parents=True);(proc/'cmdline').write_bytes(b'madplay\0'+str(root/'sounds/gong.mp3').encode()+b'\0')
   assert 'playing' in request('action=gong&volume=70')
   assert (d/'events').read_text().splitlines()==['duck','play']
+  assert 'muted' in request('action=gong&volume=0')
+  assert not (d/'state/player.pid').exists()
+  assert (d/'events').read_text().splitlines()==['duck','play'], 'Mute must not reserve or restart audio'
   assert 'stopped' in request('action=stop')
-  print('PASS Clock CGI reserves speaker before playback, duplicate request does not restart sound, explicit stop')
+  print('PASS Clock CGI reserves speaker before playback, duplicate request does not restart sound, zero volume stops duplicate, explicit stop')
  finally:request('action=stop')

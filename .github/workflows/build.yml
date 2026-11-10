@@ -1,0 +1,21 @@
+name: Build and test
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: rolid-radio
+      - uses: actions/checkout@v4
+        with:
+          repository: BraiinsForge/bmc-main
+          ref: b2c945b5f7a8ea3a7d38a8410a1ca64e8b69b9af
+          path: bmc-main
+      - run: rustup toolchain install 1.99.1 --profile minimal && rustup default 1.99.1
+      - run: sh tools/build.sh
+        working-directory: rolid-radio
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rolid-radio-build
+          path: rolid-radio/package/release/

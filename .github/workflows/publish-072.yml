@@ -1,0 +1,63 @@
+name: Publish verified 0.7.2
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/publish-072.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: release-0.7.2
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch unchanged source dependencies from preserved 0.7.1 release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release download 0.7.1 --pattern source-dependencies.tar.gz --dir package/release
+      - name: Verify exact tested artifacts and source snapshot
+        run: |
+          cd package/release
+          sha256sum -c SHA256SUMS
+          cd ../..
+          python3 - <<'PY'
+          from pathlib import Path
+          import json, tarfile, zipfile
+          assert json.loads(Path('manifest.json').read_text())['version'] == '0.7.2'
+          with tarfile.open('package/release/rolid-radio-service-0.7.2.tar.gz') as t:
+              binary = t.extractfile('rolid-radio-service').read()
+              assert binary[:5] == b'\x7fELF\x01' and binary[18:20] == b'\x28\x00'
+              for name in ('install.sh', 'clock-audio-bridge', 'rolid-radio.init'):
+                  assert t.extractfile(name).read() == Path('service-package', name).read_bytes()
+          with zipfile.ZipFile('package/release/rolid-radio-0.7.2-source.zip') as z:
+              assert z.testzip() is None
+              for name in z.namelist():
+                  path = Path(name)
+                  assert path.parts[0] == 'rolid-radio' and '..' not in path.parts
+                  assert z.read(name) == Path(*path.parts[1:]).read_bytes(), name
+          PY
+      - name: Publish tested release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -eu
+          if gh release view 0.7.2 >/dev/null 2>&1; then
+            echo 'Release 0.7.2 already exists; refusing to overwrite it.'
+            exit 1
+          fi
+          python3 - <<'PY'
+          from pathlib import Path
+          notes = Path('RELEASE_NOTES.md').read_text().split('# RoliD Radio 0.7.1 (historical)')[0]
+          Path('/tmp/rolid-radio-release-notes.md').write_text(notes)
+          PY
+          gh release create 0.7.2 --target "$GITHUB_SHA" --draft \
+            --title 'RoliD Radio 0.7.2' --notes-file /tmp/rolid-radio-release-notes.md \
+            package/release/rolid-radio-0.7.2.nar \
+            package/release/rolid-radio-service-0.7.2.tar.gz \
+            package/release/rolid-radio-0.7.2-source.zip \
+            package/release/source-dependencies.tar.gz \
+            package/release/SHA256SUMS
+          gh release edit 0.7.2 --draft=false --latest

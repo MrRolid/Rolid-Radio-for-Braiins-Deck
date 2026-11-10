@@ -195,7 +195,7 @@ dependencies = [
 
 [[package]]
 name = "rolid-radio-service"
-version = "0.5.3"
+version = "0.7.2"
 dependencies = [
  "libc",
  "serde",

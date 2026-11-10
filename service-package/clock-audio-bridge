@@ -1,0 +1,37 @@
+#!/bin/sh
+# ROLID_AUDIO_SERVICE_V1
+# Radio 0.7.2 bridge: reserve the speaker before starting Clock sounds.
+PATH=/usr/bin:/bin:/usr/sbin:/sbin
+export PATH
+root=/mnt/data/rolid-audio
+reply() { printf 'Status: %s\r\nContent-Type: text/plain\r\nCache-Control: no-store\r\n\r\n%s\n' "$1" "$2"; exit 0; }
+case "${REMOTE_ADDR:-}" in 127.0.0.1|::1) ;; *) reply '403 Forbidden' 'Local requests only';; esac
+if [ "${REQUEST_METHOD:-}" = GET ] && [ "${QUERY_STRING:-}" = status ]; then
+ [ -x /usr/bin/madplay ] && [ -s "$root/sounds/gong.mp3" ] && [ -s "$root/sounds/alarm.mp3" ] && reply '200 OK' ready
+ reply '503 Service Unavailable' 'Sound files unavailable'
+fi
+[ "${REQUEST_METHOD:-}" = POST ] && [ "${HTTP_AUTHORIZATION:-}" = Rolid-local-v1 ] || reply '403 Forbidden' denied
+query=${QUERY_STRING:-}
+case "$query" in action=stop) action=stop; volume=0;; action=gong\&volume=*|action=alarm\&volume=*) action=${query%%&*}; action=${action#action=}; volume=${query#*&volume=};; *) reply '400 Bad Request' 'Invalid action';; esac
+case "$volume" in ''|*[!0-9]*) reply '400 Bad Request' 'Invalid volume';; esac
+[ "${#volume}" -le 3 ] && [ "$volume" -le 100 ] || reply '400 Bad Request' 'Invalid volume'
+mkdir -p /tmp/rolid-audio
+mkdir /tmp/rolid-audio/request.lock 2>/dev/null || reply '409 Conflict' busy
+trap 'rmdir /tmp/rolid-audio/request.lock 2>/dev/null || :' EXIT
+# Repeated requests for the same playing sound must not restart it.
+if [ "$action" != stop ] && [ "$volume" -ne 0 ] && [ -r /tmp/rolid-audio/player.pid ]; then
+ read -r pid < /tmp/rolid-audio/player.pid
+ case "$pid" in ''|*[!0-9]*) ;; *)
+ if [ -r "/proc/$pid/cmdline" ] && tr '\000' '\n' < "/proc/$pid/cmdline" | grep -Fxq "$root/sounds/$action.mp3"; then reply '200 OK' playing; fi;; esac
+fi
+/bin/sh "$root/stop.sh"
+[ "$action" = stop ] && reply '200 OK' stopped
+[ "$volume" = 0 ] && reply '200 OK' muted
+[ -s "$root/sounds/$action.mp3" ] || reply '503 Service Unavailable' 'Sound file missing'
+radio=/mnt/data/rolid-radio/rolid-radio-service
+if [ -x "$radio" ]; then "$radio" --duck >/dev/null 2>&1 || :; fi
+db=$(((volume*40+50)/100-40))
+/usr/bin/madplay -q -A "$db" "$root/sounds/$action.mp3" </dev/null >/tmp/rolid-audio/player.log 2>&1 &
+pid=$!
+printf '%s\n' "$pid" > /tmp/rolid-audio/player.pid
+reply '200 OK' accepted
