@@ -1,3 +1,4 @@
+<img width="1280" height="480" alt="694007727-b843a050-4bad-45f6-b68f-df352027edc5" src="https://github.com/user-attachments/assets/3ae4af25-271b-4d4c-9780-285db0612c17" />
 # RoliD Radio for Braiins Deck
 
 Internet radio and a personal MP3 library for the Braiins Deck speaker. One multilingual widget supports English (default), Czech, German, Spanish and Japanese.
@@ -12,6 +13,7 @@ Internet radio and a personal MP3 library for the Braiins Deck speaker. One mult
 - HTTP(S) network MP3 playback, including a self-contained demo.
 - Remote web control panel, optional password and persistent per-device Bitcoin donation address with QR code.
 - Playback interruption for local alarm sounds, with automatic resumption.
+<img width="1280" height="480" alt="694007465-cf02e64f-2309-48e3-9741-4d1c48876f19" src="https://github.com/user-attachments/assets/f52b364a-1840-4650-8b14-776d74d26951" />
 
 ## Install or update
 
